@@ -12,7 +12,7 @@
 import { ref } from 'vue';
 import router from '@/router';
 import CardPost from '@/components/CardPost.vue';
-import blogPost from '@/fakeData/posts.json';
+import blogPost from '@/fakeDb/db.json';
 
 const blogPosts = ref(blogPost); 
 

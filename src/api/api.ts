@@ -21,7 +21,7 @@ export const getPosts = async () => {
 
 //post dinamici
 
-export const fetchPost = async (postId) => {
+export const fetchPost = async (postId:any) => {
   try {
     const response = await axios.get(`${baseURL}/posts/${postId}`);
     return response.data;
@@ -30,6 +30,20 @@ export const fetchPost = async (postId) => {
     throw error; 
   }
 };
+
+
+//Posta sul db
+
+export const createPost = async (post:any) => {
+  try {
+    const response = await axios.post(`${baseURL}/posts`, post);
+    return response.data;
+  } catch (error) {
+    console.error('Errore durante la creazione del post:', error);
+    throw error;
+  }
+};
+
 
 
 

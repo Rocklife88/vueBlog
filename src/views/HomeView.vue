@@ -38,3 +38,4 @@ const goToBlogPost = (postId: string) => {
 onMounted(fetchPosts);
 
 </script>
+@/api/api.ts.js

@@ -1,41 +1,31 @@
 <template>
-  <main class="container mx-auto px-4">
-    <div class="pt-6 pb-4 text-center md:text-left font-medium text-lg">Blog posts</div>
-    <div class="grid grid-cols-1 sm:grid-cols-1  md:grid-cols-2 lg:grid-cols-4 gap-6 pb-10">
-      <!-- Componente CardPost per ogni post -->
-      <CardPost v-for="post in posts" :key="post.id" :post="post" class="max-w-sm rounded overflow-hidden shadow-lg" @post-clicked="goToBlogPost"/>
+  <main class="container-fluid mx-auto px-4">
+    <div class="pt-2 pb-4 text-center md:text-left font-medium text-lg">Blog posts</div>
+    <div class="grid grid-cols-1 sm:grid-cols-1  md:grid-cols-2 lg:grid-cols-4 gap-4 pb-10 ">
+      <BlogPostCard v-for="post in blogPostStore.posts" :key="post.id" :post="post" class="max-w-sm rounded overflow-hidden shadow-lg" @post-clicked="onGoToBlogPost(post.id)"/>
     </div>
   </main>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import router from '@/router';
-import CardPost from '@/components/CardPost.vue';
-import {getPosts} from '@/api/api.js'
-import { useRoute } from 'vue-router';
-
-const route = useRoute();
+import { onMounted } from 'vue';
+import { useBlogPostStore } from '@/stores/blogPosts';
+import BlogPostCard from '@/components/BlogPostCard.vue';
 
 
+const blogPostStore = useBlogPostStore();
 
-const posts = ref();
 
-const fetchPosts = async () => {
-  try {
-    posts.value = await getPosts();
-  } catch (error) {
-    console.error('Errore durante il recupero dei post:', error);
-    
-  }
+// Metodo per recuperare i post al montaggio del componente
+const fetchPosts = () => {
+  blogPostStore.fetchPosts();
 };
 
+// Metodo per navigare a un post specifico
+const onGoToBlogPost = (postId: string) => {
+  blogPostStore.goToBlogPost(postId); 
+};
 
-const goToBlogPost = (postId: string) => {
-  router.push({ name: 'post', params: { id: postId } }); 
-}
-
+// Chiamata al metodo per recuperare i post al montaggio del componente
 onMounted(fetchPosts);
-
 </script>
-@/api/api.ts.js
